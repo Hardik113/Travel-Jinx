@@ -15,7 +15,7 @@ $(document).ready(() => {
     }
   });
 
-  $('#signin').click(() => {
+  $('#sign-in').click(() => {
     $('.onboard-container').css('display', 'flex');
   });
 
