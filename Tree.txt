@@ -1,0 +1,16 @@
+Tree diagram of the entire website
+index	
+	signup
+	sign in
+		dashboard
+		transaction history
+		My profile
+		Book a Train
+		Modify the tickets
+	Admin Sign in 					baadme karna hai
+		Add new trains 
+		modifying the trains 
+		Deleting the trains
+	Train status
+		A chart displaying the status of train whose number is provided
+	PNR status
