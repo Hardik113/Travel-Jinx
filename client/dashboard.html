@@ -356,6 +356,7 @@
         <a href = "dashboard.html"><li>My Profile</li></a>
         <a href = "Bookatrain.html"><li>Book a Train</li></a>
         <a href = "Transaction.html"><li>Transactions</li></a>
+
         <li id = "logout">Log Out</li>
         </ul>
         <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
@@ -407,6 +408,8 @@
 
         $('#sorting li').click((e) => {
           getData(e.target.textContent.toLocaleLowerCase());
+
+          
         });
 
         getData();
