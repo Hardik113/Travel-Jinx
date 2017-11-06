@@ -12,6 +12,18 @@
     <link href="css/book_upload.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/animate.css" type="text/css">
     <link rel="stylesheet" href="css/font-css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <style type="text/css">
+    *
+    {
+        font-family: sf_pro;
+    }
+     tr:hover
+     {
+        background-color: #2c3339 !important;
+        color:white !important;
+     }   
+    </style>
 </head>
 
 <body>
@@ -47,33 +59,11 @@
                 <h1 class="main-heading">Book A train</h1>
             </div>
             <div class="channel-create-content">
-                <div class="image-container">
-                    <div class="image-sub-container">
-                        <form>
-
-
-            <div id="map" style="width:180px; height:120px; background-color:#000000;"></div>
-
-            Latitude: <input type="text" id="latitude" /> Longitude: <input type="text" id="longitude" />
-            
-
-        </form>
-                    </div>
-                    
-                    <div class="submit-container-content">
-                        <p>By Clicking submit you agree to our terms and conditions</p>
-                        <button id="submit" type="submit">Submit</button>
-                    </div>
-                </div>
-                <div class="form-container">
+                <div style = "width:100%" class="form-container">
                     <form id="book-form">
                         <div class="form-group">
                             <label>Name of the Passenger</label><br>
                             <input id="name" class="form-control" type="text" name="PassengerName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Any Personal Preferences</label><br>
-                            <input id="author" class="form-control" type="text" name="Pref" required>
                         </div>
                         <div class="form-group" id="content">
                             <label>Age</label><br>
@@ -86,17 +76,19 @@
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
                         <div class="form-group" id="content">
-                            <label>Train Number / T</label><br>
-                            <!-- <input id="age" class="form-control" type="date" name="author" required> -->
-                            <select class="form-control" id="Train-number" value="Train-no">
-                                <option>Train1</option>  
-                                <option>Train1</option>
-                                <option>Train1</option>
-                                <option>Train1</option>
-                                <option>Train1</option>
-                                <option>Train1</option>
+                              <label>Destination</label><br>
+                            <select class="form-control" id="Destination" value="Destination">
+                                <option>Amritsar</option>  
+                                <option>Chandigarh</option>
+                                <option>Delhi</option>
                             </select>
-                            
+                            <label>Source</label><br>
+                            <select class="form-control" id="Destination" value="Destination">
+                                <option>Delhi</option>  
+                                <option>Amritsar</option>
+                                <option>Chandigarh</option>
+                            </select>
+                          
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
 						<div class="form-group" id="content">
@@ -106,12 +98,67 @@
                             		<option>Female</option>
                             		<option>Other</option>
                             </select>
+                    <input type="submit" class="form-control" name="submit" id="submit" value="Click to see the trains" style="margin:20px 0 20px 0px;color:black;">
+                    
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
                     </form>
                 </div>
             </div>
+        
         </div>
+        <form>
+        <table class="table table-striped" id="content" style="margin: 0 auto;width: 80%;font-family: sf_pro;" responsive>
+                        <thead>
+                            <tr>
+                                
+                                <th>T.Number</th>
+                                <th>Arrival</th>
+                                <th>Departure</th>
+                                <th>2AC</th>
+                                <th>3AC</th>
+                                <th>2S</th>
+                                <th>CC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>
+                            </tr>
+                            <tr>
+                                
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                            </tr>
+                            <tr>
+                                
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                                <td><input type="radio" name="train-class" value="1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div  style="text-align: center;padding: 50px" >
+                    <input type="submit" name="submit" style="padding: 10px 50px 10px 50px; background-color: white; outline: none;border:1px black solid;">
+                    </form>
+                    </div>
         <div class="nav-content">
             <ul>
                 <a href="home.html">
@@ -120,7 +167,7 @@
                 <a href="dashboard.html">
                     <li>My Profile</li>
                 </a>
-                <a href="Transaction.html">
+                <a href="listOftransaction.html">
                     <li>My Transaction History</li>
                 </a>
                 <li id="logout">Logout</li>
@@ -165,82 +212,7 @@
                 }
             });
         </script>
-        <script>
-        	$(document).ready(function(){
-
-                var Circle = null;
-                var Radius=10;
-
-                var StartPosition = new google.maps.LatLng(54.19335, -3.92695);
-
-                function DrawCircle(Map, Center, Radius) {
-
-                    if (Circle != null) {
-                        Circle.setMap(null);
-                    }
-
-                    if(Radius > 0) {
-                        Radius *= 1609.344;
-                        Circle = new google.maps.Circle({
-                            center: Center,
-                            radius: Radius,
-                            strokeColor: "#0000FF",
-                            strokeOpacity: 0.35,
-                            strokeWeight: 2,
-                            fillColor: "#0000FF",
-                            fillOpacity: 0.20,
-                            map: Map
-                        });
-                    }
-                }
-
-                function SetPosition(Location, Viewport) {
-                    Marker.setPosition(Location);
-                    if(Viewport){
-                        Map.fitBounds(Viewport);
-                        Map.setZoom(map.getZoom() + 2);
-                    }
-                    else {
-                        Map.panTo(Location);
-                    }
-                    Radius = 10;
-                    DrawCircle(Map, Location, Radius);
-                    $("#latitude").val(Location.lat().toFixed(5));
-                    $("#longitude").val(Location.lng().toFixed(5));
-                }
-
-                var MapOptions = {
-                    zoom: 5,
-                    center: StartPosition,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    mapTypeControl: false,
-                    disableDoubleClickZoom: true,
-                    streetViewControl: false
-                };
-
-                var MapView = $("#map");
-                var Map = new google.maps.Map(MapView.get(0), MapOptions);
-
-                var Marker = new google.maps.Marker({
-                    position: StartPosition, 
-                    map: Map, 
-                    title: "Drag Me",
-                    draggable: true
-                });
-
-                google.maps.event.addListener(Marker, "dragend", function(event) {
-                    SetPosition(Marker.position);
-                });
-
-                    google.maps.event.trigger(Marker, "dragend");
-               
-
-                DrawCircle(Map, StartPosition, Radius);
-                SetPosition(Marker.position);
-
-            });
-
-        </script>
+    
 </body>
 
 </html>
