@@ -93,8 +93,8 @@
           url: 'http://localhost:4000/books/list?search='+value,
           crossDomain: true,
           beforeSend: (xhr) => {
-            xhr.setRequestHeader("authorization", localStorage.getItem('token'));
-          },
+            xhr.setRequestHeader("authorization", localStorage.getItem('token')); 
+         },
           success: function(data) {
             console.log('success');
             console.log(data);
