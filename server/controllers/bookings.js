@@ -32,14 +32,13 @@ function get(bookId) {
 function addBook(req) {
   return new Promise((resolve, reject) => {
     const book = new Book(req.body);
-    console.log(book.validateSync());
     if (book.validateSync()) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
     Train.findById(book.train)
       .then((train) => {
-        switch(book.coach_type) {
+        switch (book.coach_type) {
           case 'CC':
             book.payment = train.cost.cc;
             break;
@@ -52,23 +51,25 @@ function addBook(req) {
           case 'SL':
             book.payment = train.cost.sleeper;
             break;
+          default:
+            book.payment = 0;
         }
         book.save((err) => {
-        if (err) {
-          reject({ status: 422, message: err.message });
-          return false;
-        }
+          if (err) {
+            reject({ status: 422, message: err.message });
+            return false;
+          }
+        });
+      })
+      .then(() => {
+        return User.update({ _id: req.session.user._id }, { $push: { my_bookings: book._id } });
+      })
+      .then(() => {
+        resolve({ status: 200, data: { message: 'Book added' } });
+      })
+      .catch((error) => {
+        reject({ status: error.status, data: { message: error.message } });
       });
-    })
-    .then(() => {
-      return User.update({ _id: req.session.user._id }, { $push: { my_bookings: book._id } });
-    })
-    .then((res) => {
-      resolve({ status: 200, data: { message: 'Book added' } });
-    })
-    .catch((error) => {
-      reject({ status: error.status, data: { message: error.message } });
-    });
   });
 }
 
