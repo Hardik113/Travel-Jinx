@@ -36,81 +36,54 @@
         </ul>
       </div>
     </div>
-    <img class = "symbol" src = "resources/authored.png">
     <div class = "main-page">
       <div class = "main-page-content">
         <div class = "header-content">
-          <h1 class = "main-heading">Create Channel</h1>
+          <h1 class = "main-heading">Your Invoice</h1>
         </div>
         <div class = "channel-create-content">
           <div style = "margin-left: 5%;border-left: 1px solid lightgray;" class = "form-container">
             <form id="channel">
               <div class = "form-group">
                 <label>Name</label><br>
-                <input id = "name" class = "form-control" type = "text" name = "channelname" required>
+                <input id = "name" class = "form-control" type = "text" name = "userName" required>
               </div>
               <div class = "form-group">
-                <label></label><br>
-                <input type = "radio" name = "type" value = "private"><span class = "radio-text" value = "private">&nbsp;Private</span>
-                <input style = "margin-left:10px" type = "radio" name = "type" value = "public"><span class = "radio-text" value = "public">&nbsp;Public</span><br><span id="after"></span>
+                <label>Age</label><br>
+                <input id = "age" class = "form-control" type = "number" name = "userAge" required min="0" style = "width: 10%">
               </div>
               <div class = "form-group">
-                <label>Description</label><br>
-                <textarea id = "desp" name = "description" rows = "5" cols = "3" required></textarea>
+                <label>Source </label><label style="padding-left:41%;">Destination</label><br>
+                <input style = "width:30%" class = "form-control tag" type = "text" name = "source" >
+                <input style = "width:30%; margin-left:20%" class = "form-control tag" type = "text" name = "destination">
               </div>
-              <div class = "form-group">
-                <label>Tags</label><br>
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag" >
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag">
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag" id= "after1">
-              </div>
-              <div class = "form-group">
-                <label>Genre</label><br>
-                <select id = "genre">
-                  <option value = "fiction">Fiction</option>
-                  <option value = "non-fiction">Non-Fiction</option>
-                  <option value = "horror">Horror</option>
-                  <option value = "phylosophy">Phylosophy</option>
-                </select>
+              <div class="form-group">
+                <label>Gender</label><br>
+                <input type = "radio" name = "gender" value = "male"><span class = "radio-text" value = "male">&nbsp;Male</span>
+                <input style = "margin-left:10px" type = "radio" name = "gender" value = "femal"><span class = "radio-text" value = "public">&nbsp;Female</span><br><span id="after"></span>
               </div>
             </form>
           </div>
           <div class = "form-container">
             <form id="channel">
               <div class = "form-group">
-                <label>Name</label><br>
-                <input id = "name" class = "form-control" type = "text" name = "channelname" required>
+                <label>Arrival</label><br>
+                <input id = "arrival" class = "form-control" type = "date" name = "arrival" required style = "width: 30%">
               </div>
               <div class = "form-group">
-                <label>Type</label><br>
-                <input type = "radio" name = "type" value = "private"><span class = "radio-text" value = "private">&nbsp;Private</span>
-                <input style = "margin-left:10px" type = "radio" name = "type" value = "public"><span class = "radio-text" value = "public">&nbsp;Public</span><br><span id="after"></span>
+                <label>Departure</label><br>
+                <input id = "departure" class = "form-control" type = "date" name = "departure" required style = "width: 30%">
               </div>
               <div class = "form-group">
-                <label>Description</label><br>
-                <textarea id = "desp" name = "description" rows = "5" cols = "3" required></textarea>
-              </div>
-              <div class = "form-group">
-                <label>Tags</label><br>
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag" >
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag">
-                <input style = "width:30%" class = "form-control tag" type = "text" name = "tag" id= "after1">
-              </div>
-              <div class = "form-group">
-                <label>Genre</label><br>
-                <select id = "genre">
-                  <option value = "fiction">Fiction</option>
-                  <option value = "non-fiction">Non-Fiction</option>
-                  <option value = "horror">Horror</option>
-                  <option value = "phylosophy">Phylosophy</option>
-                </select>
+                <label>Cost</label><br>
+                <label><h1>6,000 /-</h1></label>
               </div>
             </form>
           </div>
-          <div class = "submit-container">
+          <div class = "submit-container" style="margin-left:30%; margin-top:0;">
             <div class = "submit-container-content">
               <p>By Clicking submit you agree to our terms and conditions</p>
-              <button id = "submit" type = "submit">Create Channel</button>
+              <button id = "submit" type = "submit">Book Ticket</button>
             </div>
           </div>
         </div>
