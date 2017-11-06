@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Travel Jinx</title>
+    <title>Authored</title>
     <link href = "css/index.css" rel = "stylesheet" type = "text/css">
     <link href = "css/landing.css" rel = "stylesheet" type = "text/css">
     <link rel="stylesheet" href="css/font-css/font-awesome.min.css" type = "text/css">
@@ -44,17 +44,19 @@
     </div>
     <div class = "nav-content">
       <ul>
-        <a href = "index.html"><li>Home</li></a>
-        <a id="sign-in"><li>My Profile</li></a>
-        <a href = "search for train.html"><li>Train Status</li></a>
+        <a href = "http://localhost:8000/home.html"><li>Home</li></a>
+        <a href = "http://localhost:8000/profile.html"><li>My Profile</li></a>
+        <a href = "http://localhost:8000/channel-list.html"><li>Channels</li></a>
+        <a href = "#"><li id = "signin">Sign In</li></a>
       </ul>
-      <img id = "nav-symbol" class = "symbol" src = "resources/authored.svg">
+      <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
     </div>
     <img class = "symbol" src = "resources/authored.png">
     <div class = "main-page">
       <div class = "main-page-content">
-        <h1 class = "main-heading">Travel Jinx</h1>
-        <p class = "main-text">A website which would be sought all the problems related to train booking and need more content</p>
+        <h1 class = "main-heading">Authored</h1>
+        <p class = "main-text">The nodes of the network can be either connected or not. The relationship ties
+          between nodes are referred as edges, links, or connections.</p>
       </div>
       <div class = "main-image">
         <img src = "resources/main-banner.jpg">
@@ -93,7 +95,7 @@
         </form>
       </div>
     </div>
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
     <script src="js/jquery_validate.js"></script>
     <script src = "js/index.js"></script>
     <script src = "js/nav.js"></script>
@@ -105,7 +107,11 @@
         $("#register-form").validate({
            errorElement: 'div',
         });
+
+        $('#signin').click(() => {
+          $('.onboard-container').css('display', 'flex');
+        });
+
     </script>
   </body>
 </html>
-  
