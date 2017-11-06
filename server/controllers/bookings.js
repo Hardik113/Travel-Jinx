@@ -19,13 +19,15 @@ function find(bookName) {
 
 function get(bookId) {
   return new Promise((resolve, reject) => {
-    Book.findById(bookId, (err, result) => {
-      if (err) {
-        reject({ status: 422, message: err.message });
-        return false;
-      }
-      resolve(result);
-    });
+    Book.findById(bookId)
+      .populate('user train')
+      .exec((err, result) => {
+        if (err) {
+          reject({ status: 422, message: err.message });
+          return false;
+        }
+        resolve(result);
+      });
   });
 }
 

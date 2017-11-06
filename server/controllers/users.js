@@ -158,12 +158,10 @@ function register(req) {
             resolve({ status: 200, data: { user_id: user._id, token: jwt.sign({ user_id: user._id, type: 'login' }, config.secret), message: ret.message } });
           })
           .catch((error) => {
-            console.log(error);
             reject({ status: 400, data: { message: error.message } });
           });
       })
       .catch((error) => {
-        console.log(error);
         reject({ status: error.status, data: { message: error.message } });
       });
   });
@@ -221,9 +219,8 @@ function me(req) {
 function me_expanded(req) {
   return new Promise((resolve, reject) => {
     User.findById(req.session.user._id)
-      .populate('my_publishing')
-      .populate('my_channels')
-      .populate('my_favourite')
+      .populate('my_bookings')
+      .populate({ path: 'my_bookings', populate: { path: 'train' } })
       .exec((err, user) => {
         resolve({ status: 200, data: user });
       })

@@ -1,7 +1,7 @@
 {
   "localhost": {
     "db": {
-      "host": "mongodb://localhost:27017/authored",
+      "host": "mongodb://localhost:27017/irctc",
       "options": {
         "poolSize": 10,
         "useMongoClient": true,

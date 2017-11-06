@@ -128,61 +128,42 @@
     <script src="js/jquery_validate.js"></script>
     <script src = "js/nav.js"></script>
     <script>
-        $('#submit').click(() => {
-          if ($('#channel').valid()) {
-            const data = {
-              name: $('#name').val(),
-              description: $('#desp').val(),
-              type: $('[name="type"]').val(),
-              tags: $('.tag').val(),
-              genre: $('#genre').val()
-           };
-          $.ajax({
-            type: 'POST',
-			      data: JSON.stringify(data),
-            crossDomain: true,
+      function getbook(_id) {
+        $.ajax({
+          type: 'GET',
+			    contentType: 'application/json',
+          url: 'http://localhost:4000/bookings/'+_id,
+          crossDomain: true,
             beforeSend: (xhr) => {
               xhr.setRequestHeader("authorization", localStorage.getItem('token'));
-            },
-			      contentType: 'application/json',
-            url: 'http://localhost:4000/channels/create',
-            success: function(data) {
-              console.log('success');
-              alert('Your channel has been created');
-            },
-            error: function(error) {
-              console.log('error');
-              if (error.status === 404){
-                alert('This channel already exist!');
-              } else {
-                alert('There was some error! Please try again.');
-              }
-            }
-          });
+          },
+          success: function(data) {
+            console.log('success');
+            console.log(data);
+            $('#first_name').val(data.first_name);
+            $('#last_name').val(data.last_name);
+            $('#email').val(data.email);
+          },
+          error: function(data) {
+            console.log('error');
+            console.log(data);
           }
-        });       
-        $("#channel").validate({
-           rules: {
-               type: {
-                required: true
-              },
-              tag: {
-                required: true
-              }
-           },
-            messages: {
-              type: '*Please select one option',
-              tag: 'Please fill the above fields'
-            },
-            errorPlacement: function(error, element) {
-              if (element.attr("name") == "type")
-                error.insertAfter("#after");
-              else if (element.attr("name") == "tag")
-                error.insertAfter("#after1");
-              else
-                error.insertAfter(element);
-              }
         });
+      }
+      const _id = getUrlParameter('book_id');
+      getbook(_id);
+      function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+          for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+          }
+        }
     </script>
   </body>
 </html>
