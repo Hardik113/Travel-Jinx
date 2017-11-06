@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Authored</title>
+    <link href = "css/index.css" rel = "stylesheet" type = "text/css">
+    <link href = "css/create_channel.css" rel = "stylesheet" type = "text/css">
+    <link rel="stylesheet" href="css/animate.css" type = "text/css">
+    <link rel="stylesheet" href="css/font-css/font-awesome.min.css" type = "text/css">
+  </head>
+  <body>
+    <div class = "nav-container">
+      <div class = "sub-nav-1">
+        <div class = "nav-button">
+          <span class = "nav-bar"></span>
+          <span class = "nav-bar"></span>
+          <span class = "nav-bar"></span>
+        </div>
+      </div>
+      <div class = "sub-nav-2">
+        <ul class = "social-links">
+          <li class = "link" id = "facebook">
+            <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+          </li>
+          <li class = "link" id = "insta">
+            <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+          </li>
+          <li class = "link" id = "spapchat">
+            <i class="fa fa-snapchat fa-lg" aria-hidden="true"></i>
+          </li>
+          <li class = "link" id = "twitter">
+            <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class = "main-page">
+      <div class = "main-page-content">
+        <div class = "header-content">
+          <h1 class = "main-heading">Your Booking</h1>
+        </div>
+        <div class = "channel-create-content">
+          <div style = "margin-left: 5%;border-left: 1px solid lightgray;" class = "form-container">
+            <form id="channel">
+              <div class = "form-group">
+                <label>Name</label><br>
+                <input id = "name" class = "form-control" type = "text" name = "userName" required>
+              </div>
+              <div class = "form-group">
+                <label>Age</label><br>
+                <input id = "age" class = "form-control" type = "number" name = "userAge" required min="0" style = "width: 10%">
+              </div>
+              <div class = "form-group">
+                <label>Source </label><label style="padding-left:41%;">Destination</label><br>
+                <input style = "width:30%" class = "form-control tag" type = "text" name = "source" >
+                <input style = "width:30%; margin-left:20%" class = "form-control tag" type = "text" name = "destination">
+              </div>
+              <div class="form-group">
+                <label>Gender</label><br>
+                <input type = "radio" name = "gender" value = "male"><span class = "radio-text" value = "male">&nbsp;Male</span>
+                <input style = "margin-left:10px" type = "radio" name = "gender" value = "femal"><span class = "radio-text" value = "public">&nbsp;Female</span><br><span id="after"></span>
+              </div>
+            </form>
+          </div>
+          <div class = "form-container">
+            <form id="channel">
+              <div class = "form-group">
+                <label>Arrival</label><br>
+                <input id = "arrival" class = "form-control" type = "date" name = "arrival" required style = "width: 30%">
+              </div>
+              <div class = "form-group">
+                <label>Departure</label><br>
+                <input id = "departure" class = "form-control" type = "date" name = "departure" required style = "width: 30%">
+              </div>
+              <div class = "form-group">
+                <label>Cost</label><br>
+                <label><h1>6,000 /-</h1></label>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+    <div class = "nav-content">
+      <ul>
+        <a href = "http://localhost:8000/home.html"><li>Home</li></a>
+        <a href = "http://localhost:8000/profile.html"><li>My Profile</li></a>
+        <a href = "http://localhost:8000/channel-list.html"><li>Channels</li></a>
+        <li id = "logout">Log Out</li>
+      </ul>
+      <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
+    </div>
+    <script src="js/jquery.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+    <script src="js/jquery_validate.js"></script>
+    <script src = "js/nav.js"></script>
+    <script>
+        $('#submit').click(() => {
+          if ($('#channel').valid()) {
+            const data = {
+              name: $('#name').val(),
+              description: $('#desp').val(),
+              type: $('[name="type"]').val(),
+              tags: $('.tag').val(),
+              genre: $('#genre').val()
+           };
+          $.ajax({
+            type: 'POST',
+			      data: JSON.stringify(data),
+            crossDomain: true,
+            beforeSend: (xhr) => {
+              xhr.setRequestHeader("authorization", localStorage.getItem('token'));
+            },
+			      contentType: 'application/json',
+            url: 'http://localhost:4000/channels/create',
+            success: function(data) {
+              console.log('success');
+              alert('Your channel has been created');
+            },
+            error: function(error) {
+              console.log('error');
+              if (error.status === 404){
+                alert('This channel already exist!');
+              } else {
+                alert('There was some error! Please try again.');
+              }
+            }
+          });
+          }
+        });       
+        $("#channel").validate({
+           rules: {
+               type: {
+                required: true
+              },
+              tag: {
+                required: true
+              }
+           },
+            messages: {
+              type: '*Please select one option',
+              tag: 'Please fill the above fields'
+            },
+            errorPlacement: function(error, element) {
+              if (element.attr("name") == "type")
+                error.insertAfter("#after");
+              else if (element.attr("name") == "tag")
+                error.insertAfter("#after1");
+              else
+                error.insertAfter(element);
+              }
+        });
+    </script>
+  </body>
+</html>
