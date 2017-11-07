@@ -15,10 +15,6 @@ $(document).ready(() => {
     }
   });
 
-  $('#sign-in').click(() => {
-    $('.onboard-container').css('display', 'flex');
-  });
-
   $('#logout').click(() => {
     localStorage.clear();
     window.location = 'http://localhost:8000/index.html';

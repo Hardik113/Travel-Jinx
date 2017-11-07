@@ -1,6 +1,6 @@
 const express = require('express');
 
-const BookController = require('../controllers/books');
+const BookController = require('../controllers/bookings');
 const Auth = require('../modules/auth');
 
 const router = express.Router();
@@ -40,6 +40,7 @@ router.post('/create', (req, res) => {
       res.status(200).send(result.data);
     })
     .catch((error) => {
+      console.log(error);
       res.status(error.status).send(error.data);
     });
 });
@@ -70,17 +71,5 @@ router.delete('/:book_id', (req, res) => {
     });
 });
 
-router.post('/addLike/:book_id', (req, res) => {
-  Auth.authorize(req.session)
-    .then(() => {
-      return BookController.addLike(req);
-    })
-    .then((result) => {
-      res.status(200).send(result.data);
-    })
-    .catch((error) => {
-      res.status(error.status).send(error.data);
-    });
-});
 
 module.exports = router;

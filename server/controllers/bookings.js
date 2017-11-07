@@ -1,7 +1,8 @@
 const Promise = require('bluebird');
 
-const Book = require('../models/books');
+const Book = require('../models/bookings');
 const User = require('../models/users');
+const Train = require('../models/trains');
 
 
 function find(bookName) {
@@ -18,13 +19,15 @@ function find(bookName) {
 
 function get(bookId) {
   return new Promise((resolve, reject) => {
-    Book.findById(bookId, (err, result) => {
-      if (err) {
-        reject({ status: 422, message: err.message });
-        return false;
-      }
-      resolve(result);
-    });
+    Book.findById(bookId)
+      .populate('user train')
+      .exec((err, result) => {
+        if (err) {
+          reject({ status: 422, message: err.message });
+          return false;
+        }
+        resolve(result);
+      });
   });
 }
 
@@ -35,11 +38,23 @@ function addBook(req) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
-    find(req.body.name)
-      .then((result) => {
-        if (result.length > 0) {
-          reject({ status: 404, data: { message: 'Book already present' } });
-          return false;
+    Train.findById(book.train)
+      .then((train) => {
+        switch (book.coach_type) {
+          case 'CC':
+            book.payment = train.cost.cc;
+            break;
+          case '2AC':
+            book.payment = train.cost.second_ac;
+            break;
+          case '3AC':
+            book.payment = train.cost.three_ac;
+            break;
+          case 'SL':
+            book.payment = train.cost.sleeper;
+            break;
+          default:
+            book.payment = 0;
         }
         book.save((err) => {
           if (err) {
@@ -47,10 +62,12 @@ function addBook(req) {
             return false;
           }
         });
-        return User.update({ _id: req.session.user._id }, { $push: { my_publishing: book._id } });
       })
       .then(() => {
-        resolve({ status: 200, data: { message: 'Book added' } });
+        return User.update({ _id: req.session.user._id }, { $push: { my_bookings: book._id } });
+      })
+      .then(() => {
+        resolve({ status: 200, data: { _id: book._id } });
       })
       .catch((error) => {
         reject({ status: error.status, data: { message: error.message } });
@@ -100,37 +117,16 @@ function deleteBook(req) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
-    Book.findByIdAndRemove(req.params.book_id, (err) => {
+    Book.findByIdAndUpdate(req.params.book_id, { status: 'cancelled' }, (err) => {
       if (err) {
         reject({ status: 422, message: err.message });
         return false;
       }
-      return User.update({ _id: req.session.user._id }, { $pull: { my_publishing: req.params.book_id } });
-    })
-      .then(() => {
-        resolve({ status: 200, data: { message: 'Book Removed' } });
-      })
-      .catch((error) => {
-        reject({ status: error.status, data: { message: error.message } });
-      });
-  });
-}
-
-function addLike(req) {
-  return new Promise((resolve, reject) => {
-    if (!req.params.book_id) {
-      reject({ status: 400, data: { message: 'Invalid Request' } });
-      return false;
-    }
-    Book.findByIdAndUpdate(req.params.book_id, { likes: { $incr: 1 } }, (err) => {
-      if (err) {
-        reject({ status: 422, data: { message: err.message } });
-        return false;
-      }
-      resolve({ status: 200, data: { message: 'Likes Added' } });
+      resolve({ status: 200, data: { message: 'Book Removed' } });
     });
   });
 }
+
 
 function list(query) {
   return new Promise((resolve, reject) => {
@@ -180,7 +176,6 @@ function list(query) {
 const services = {};
 
 services.addBook = addBook;
-services.addLike = addLike;
 services.updateBook = updateBook;
 services.getBook = getBook;
 services.deleteBook = deleteBook;

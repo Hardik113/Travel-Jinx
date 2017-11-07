@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Authored</title>
+    <link href = "css/index.css" rel = "stylesheet" type = "text/css">
+    <link href = "css/profile.css" rel = "stylesheet" type = "text/css">
+    <link href = "css/home.css" rel = "stylesheet" type = "text/css">
+    <link rel="stylesheet" href="css/font-css/font-awesome.min.css" type = "text/css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <style type="text/css">
+      table
+      {
+        margin-top: 60px ;
+      }
+      a
+      {
+        color:red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav-container">
+        <div class="sub-nav-1">
+            <div class="nav-button">
+                <span class="nav-bar"></span>
+                <span class="nav-bar"></span>
+                <span class="nav-bar"></span>
+            </div>
+        </div>
+        <div class="sub-nav-2">
+            <ul class="social-links">
+                <li class="link" id="facebook">
+                    <i class="fa fa-facebook fa-lg" aria-hidden="true"></i>
+                </li>
+                <li class="link" id="insta">
+                    <i class="fa fa-instagram fa-lg" aria-hidden="true"></i>
+                </li>
+                <li class="link" id="spapchat">
+                    <i class="fa fa-snapchat fa-lg" aria-hidden="true"></i>
+                </li>
+                <li class="link" id="twitter">
+                    <i class="fa fa-twitter fa-lg" aria-hidden="true"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-page">
+        <div class="main-page-content">
+            <div class="header-content">
+                <h1 class="main-heading">My Bookings</h1>
+            </div>
+            <div class="channel-create-content">
+                <div class="form-container">
+                    
+                </div>
+            </div>
+        
+        </div>
+        
+        <table class="table table-striped" id="content" style="border: 1px solid black;margin:0 auto;width:95%;font-family: sf_pro;margin-top: 5%" responsive>
+                        <thead>
+                            <tr>
+                                <th>PNR</th>
+                                <th>Date of Journey</th>
+                                <th>Name of Passenger</th>
+                                <th>T.Number</th>
+                                <th>Arrival</th>
+                                <th>Departure</th>
+                                <th>Date of billing</th>
+                                <th>Billing Amount</th>
+                                <th>Status</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id = "table_body">
+                        
+                        </tbody>
+                    </table>
+
+            
+        <div class = "nav-content">
+      <ul>
+        <a href = "http://localhost:8000/home.html"><li>Home</li></a>
+        <a href = "http://localhost:8000/book_train.html"><li>Book A Train</li></a>
+        <a href = "http://localhost:8000/listOftransactions.html"><li>My Transactions</li></a>
+        <a href = "#"><li id = "logout">Log Out</li></a>
+      </ul>
+      <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
+    </div>
+<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/jquery_validate.js"></script>
+        <script src="js/nav.js"></script>
+        <script>
+        $.ajax({
+        type: 'GET',
+		  contentType: 'application/json',
+          url: 'http://localhost:4000/users/me_expanded',
+          crossDomain: true,
+            beforeSend: (xhr) => {
+              xhr.setRequestHeader("authorization", localStorage.getItem('token'));
+          },
+          success: function(data) {
+            console.log('success');
+            console.log(data);
+            for(var i = 0;i < data.my_bookings.length; i++) {
+                const html = `<tr>
+                                <td>${data.my_bookings[i]._id}</td>
+                                <td>${new Date(data.my_bookings[i].journey_date).toDateString()}</td>
+                                <td>${data.first_name} ${data.last_name}</td>
+                                <td>${data.my_bookings[i].train.number}</td>
+                                <td>${data.my_bookings[i].train.time.arrival}</td>
+                                <td>${data.my_bookings[i].train.time.departure}</td>
+                                <td>${new Date(data.my_bookings[i].createdAt).toDateString()}</td>
+                                <td>${data.my_bookings[i].payment}</td>
+                                <td>${data.my_bookings[i].status}</td>
+                                <td style="color: red;">
+                                 <a>
+                                   <i class="fa fa-close fa-lg" aria-hidden="true" onclick = "cancel('${data.my_bookings[i]._id}')"></i>
+                                   </a>
+                                 </td>
+                            </tr>`
+                $('#table_body').append(html);
+            }
+          },
+          error: function(data) {
+            console.log('error');
+            console.log(data);
+          }
+      });
+
+      function cancel(id) {
+          if (confirm('Are you sure you want to cancel your ticket?')) {
+              $.ajax({
+                type: 'DELETE',
+		        contentType: 'application/json',
+                url: 'http://localhost:4000/bookings/'+id,
+                crossDomain: true,
+                beforeSend: (xhr) => {
+                    xhr.setRequestHeader("authorization", localStorage.getItem('token'));
+                },
+                success: function(data) {
+                    console.log('success');
+                    alert('Your ticket has been canceled');
+                    location.reload();
+                },
+                error: function(data) {
+                    console.log('error');
+                    console.log(data);
+                }
+                });
+              
+          }
+      }
+        </script>
+     </body>
+</html>

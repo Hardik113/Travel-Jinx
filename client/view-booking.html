@@ -39,7 +39,7 @@
     <div class = "main-page">
       <div class = "main-page-content">
         <div class = "header-content">
-          <h1 class = "main-heading">Your Invoice</h1>
+          <h1 class = "main-heading">Your Booking</h1>
         </div>
         <div class = "channel-create-content">
           <div style = "margin-left: 5%;border-left: 1px solid lightgray;" class = "form-container">
@@ -50,16 +50,17 @@
               </div>
               <div class = "form-group">
                 <label>Age</label><br>
-                <input id = "age" class = "form-control" type = "number" name = "userAge" required min="0" style = "width: 30%">
+                <input id = "age" class = "form-control" type = "number" name = "userAge" required min="0" style = "width: 10%">
               </div>
               <div class = "form-group">
                 <label>Source </label><label style="padding-left:41%;">Destination</label><br>
-                <input id = "source" style = "width:30%" class = "form-control tag" type = "text" name = "source" >
-                <input id = "destination" style = "width:30%; margin-left:20%" class = "form-control tag" type = "text" name = "destination">
+                <input style = "width:30%" class = "form-control tag" type = "text" name = "source" >
+                <input style = "width:30%; margin-left:20%" class = "form-control tag" type = "text" name = "destination">
               </div>
               <div class="form-group">
                 <label>Gender</label><br>
-                <input id = "gender" class = "form-control" type = "text" name = "userAge" required min="0">
+                <input type = "radio" name = "gender" value = "male"><span class = "radio-text" value = "male">&nbsp;Male</span>
+                <input style = "margin-left:10px" type = "radio" name = "gender" value = "femal"><span class = "radio-text" value = "public">&nbsp;Female</span><br><span id="after"></span>
               </div>
             </form>
           </div>
@@ -74,29 +75,19 @@
                 <input id = "departure" class = "form-control" type = "date" name = "departure" required style = "width: 30%">
               </div>
               <div class = "form-group">
-                <label>Journey Date</label><br>
-                <input id = "journey_date" class = "form-control" type = "date" name = "departure" required>
-              </div>
-              <div class = "form-group">
                 <label>Cost</label><br>
-                <label><h1 id = "cost"></h1></label>
+                <label><h1>6,000 /-</h1></label>
               </div>
             </form>
-          </div>
-          <div class = "submit-container" style="margin-left:30%; margin-top:0;">
-            <div class = "submit-container-content">
-              <p>By Clicking submit you agree to our terms and conditions</p>
-              <button id = "submit" type = "submit">Book Ticket</button>
-            </div>
           </div>
         </div>
     </div>
     <div class = "nav-content">
       <ul>
         <a href = "http://localhost:8000/home.html"><li>Home</li></a>
-        <a href = "http://localhost:8000/book_train.html"><li>Book A Train</li></a>
-        <a href = "http://localhost:8000/listOftransactions.html"><li>My Transactions</li></a>
-        <a href = "#"><li id = "logout">Log Out</li></a>
+        <a href = "http://localhost:8000/profile.html"><li>My Profile</li></a>
+        <a href = "http://localhost:8000/channel-list.html"><li>Channels</li></a>
+        <li id = "logout">Log Out</li>
       </ul>
       <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
     </div>
@@ -104,48 +95,61 @@
     <script src="js/jquery_validate.js"></script>
     <script src = "js/nav.js"></script>
     <script>
-      function getbook(_id) {
-        $.ajax({
-          type: 'GET',
-			    contentType: 'application/json',
-          url: 'http://localhost:4000/bookings/'+_id,
-          crossDomain: true,
+        $('#submit').click(() => {
+          if ($('#channel').valid()) {
+            const data = {
+              name: $('#name').val(),
+              description: $('#desp').val(),
+              type: $('[name="type"]').val(),
+              tags: $('.tag').val(),
+              genre: $('#genre').val()
+           };
+          $.ajax({
+            type: 'POST',
+			      data: JSON.stringify(data),
+            crossDomain: true,
             beforeSend: (xhr) => {
               xhr.setRequestHeader("authorization", localStorage.getItem('token'));
-          },
-          success: function(data) {
-            console.log('success');
-            console.log(data);
-            $('#name').val(data.name);
-            $('#age').val(data.age);
-            $('#source').val(data.train.start);
-            $('#destination').val(data.train.destination);
-            $('#gender').val(data.gender);
-            $('#journey_date').val(new Date(data.journey_date).toDateString());
-            $('#arrival').val(data.train.time.arrival);
-            $('#departure').val(data.train.time.departure);
-            $('#cost').text(`${data.payment} /-`);
-          },
-          error: function(data) {
-            console.log('error');
-            console.log(data);
-          }
-        });
-      }
-      const _id = getUrlParameter('book_id');
-      getbook(_id);
-      function getUrlParameter(sParam) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-          sURLVariables = sPageURL.split('&'),
-          sParameterName,
-          i;
-          for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] === sParam) {
-              return sParameterName[1] === undefined ? true : sParameterName[1];
+            },
+			      contentType: 'application/json',
+            url: 'http://localhost:4000/channels/create',
+            success: function(data) {
+              console.log('success');
+              alert('Your channel has been created');
+            },
+            error: function(error) {
+              console.log('error');
+              if (error.status === 404){
+                alert('This channel already exist!');
+              } else {
+                alert('There was some error! Please try again.');
+              }
             }
+          });
           }
-        }
+        });       
+        $("#channel").validate({
+           rules: {
+               type: {
+                required: true
+              },
+              tag: {
+                required: true
+              }
+           },
+            messages: {
+              type: '*Please select one option',
+              tag: 'Please fill the above fields'
+            },
+            errorPlacement: function(error, element) {
+              if (element.attr("name") == "type")
+                error.insertAfter("#after");
+              else if (element.attr("name") == "tag")
+                error.insertAfter("#after1");
+              else
+                error.insertAfter(element);
+              }
+        });
     </script>
   </body>
 </html>

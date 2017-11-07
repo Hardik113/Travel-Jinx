@@ -8,7 +8,6 @@ const userSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   age: { type: Number },
-  website: { type: String },
   gender: { type: String, enum: ['male', 'female', 'other'] },
   status: {
     type: String,
@@ -16,9 +15,7 @@ const userSchema = new Schema({
     default: 'active',
   },
   description: { type: String },
-  my_publishing: [{ type: Schema.Types.ObjectId, ref: 'book' }],
-  my_channels: [{ type: Schema.Types.ObjectId, ref: 'channel' }],
-  my_favourite: [{ type: Schema.Types.ObjectId, ref: 'book' }],
+  my_bookings: [{ type: Schema.Types.ObjectId, ref: 'book' }],
 }, { timestamps: true });
 
 userSchema.index({ name: 'text' });

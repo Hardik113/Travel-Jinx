@@ -75,6 +75,7 @@ router.post('/login', (req, res) => {
       res.status(result.status || 200).send(result.data);
     })
     .catch((error) => {
+      console.log(error);
       res.status(error.status).send(error.data);
     });
 });
