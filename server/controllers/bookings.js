@@ -67,7 +67,7 @@ function addBook(req) {
         return User.update({ _id: req.session.user._id }, { $push: { my_bookings: book._id } });
       })
       .then(() => {
-        resolve({ status: 200, data: { message: 'Book added' } });
+        resolve({ status: 200, data: { _id: book._id } });
       })
       .catch((error) => {
         reject({ status: error.status, data: { message: error.message } });
@@ -117,19 +117,13 @@ function deleteBook(req) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
-    Book.findByIdAndRemove(req.params.book_id, (err) => {
+    Book.findByIdAndUpdate(req.params.book_id, { status: 'cancelled' }, (err) => {
       if (err) {
         reject({ status: 422, message: err.message });
         return false;
       }
-      return User.update({ _id: req.session.user._id }, { $pull: { my_bookings: req.params.book_id } });
-    })
-      .then(() => {
-        resolve({ status: 200, data: { message: 'Book Removed' } });
-      })
-      .catch((error) => {
-        reject({ status: error.status, data: { message: error.message } });
-      });
+      resolve({ status: 200, data: { message: 'Book Removed' } });
+    });
   });
 }
 

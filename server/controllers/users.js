@@ -97,10 +97,10 @@ function login(req) {
     }
     const query = {};
     let user = null;
-    if (utils.validateEmail(req.body.user_name)) {
-      query.email = req.body.user_name;
+    if (utils.validateEmail(req.body.email)) {
+      query.email = req.body.email;
     } else {
-      query.user_name = req.body.user_name;
+      query.email = req.body.email;
     }
     find(query)
       .then((result) => {

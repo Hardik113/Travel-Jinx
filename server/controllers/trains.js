@@ -98,13 +98,13 @@ function deleteTrain(req) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
-    Trains.findByIdAndRemove(req.params.train_id, (err) => {
+    Train.findByIdAndRemove(req.params.train_id, (err) => {
       if (err) {
         reject({ status: 422, message: err.message });
         return false;
       }
       resolve({ status: 200, data: { message: 'Channel Deleted' } });
-    })
+    });
   });
 }
 
@@ -119,20 +119,16 @@ function list(query) {
       reject({ status: 400, data: { message: 'Invalid Request' } });
       return false;
     }
-    if ((query.type) && (!(allowedFilter.indexOf(query.filter) > -1))) {
-      reject({ status: 400, data: { message: 'Invalid Request' } });
-      return false;
-    }
 
     const start = (parseInt(query.start, 10)) ? parseInt(query.start, 10) : 0;
     const limit = (parseInt(query.limit, 10)) ? parseInt(query.limit, 10) : 25;
 
     const search = {
-      start: query.start,
+      start: query.source,
       destination: query.destination,
-      seats_available: { $gte: 1 }
-    }
-    Channel.find(search)
+      seats_available: { $gte: 1 },
+    };
+    Train.find(search)
       .sort('-seats_available')
       .skip(start)
       .limit(limit)
