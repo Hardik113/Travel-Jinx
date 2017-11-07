@@ -38,7 +38,6 @@
         </ul>
       </div>
     </div>
-    <img class = "symbol" src = "resources/authored.png">
     <div class = "main-page">
       <div style = "text-align:center" class = "main-page-content">
         <div style = "text-align:left" class = "header-content">
@@ -92,9 +91,9 @@
     <div class = "nav-content">
       <ul>
         <a href = "http://localhost:8000/home.html"><li>Home</li></a>
-        <a href = "http://localhost:8000/profile.html"><li>My Profile</li></a>
-        <a href = "http://localhost:8000/channel-list.html"><li>Channels</li></a>
-        <li id = "logout">Log Out</li>
+        <a href = "http://localhost:8000/book_train.html"><li>Book A Train</li></a>
+        <a href = "http://localhost:8000/listOftransactions.html"><li>My Transactions</li></a>
+        <a href = "#"><li id = "logout">Log Out</li></a>
       </ul>
       <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
     </div>
@@ -145,7 +144,7 @@
             success: function(data) {
               console.log('success');
               alert('Your profile has been updated!');
-              window.location = 'http://localhost:8000/explore.html';
+              window.location = 'http://localhost:8000/home.html';
             },
             error: function(data) {
               console.log('error');

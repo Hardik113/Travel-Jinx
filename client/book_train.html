@@ -52,7 +52,6 @@
             </ul>
         </div>
     </div>
-    <img class="symbol" src="resources/authored.svg">
     <div class="main-page">
         <div class="main-page-content">
             <div class="header-content">
@@ -71,19 +70,28 @@
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
                         <div class="form-group" id="content">
+                            <label>Gender</label><br>
+                            <select class="form-control" id="gender">
+                                <option>Male</option>  
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                            <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
+                        </div>
+                        <div class="form-group" id="content">
                             <label>Date of Departure</label><br>
-                            <input id="age" class="form-control" type="date" name="date" required>
+                            <input id="date" class="form-control" type="date" name="date" required>
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
                         <div class="form-group" id="content">
                               <label>Destination</label><br>
-                            <select class="form-control" id="Destination" value="Destination">
+                            <select class="form-control" id="destination" value="Destination">
                                 <option>Amritsar</option>  
                                 <option>Chandigarh</option>
                                 <option>Delhi</option>
                             </select>
                             <label>Source</label><br>
-                            <select class="form-control" id="Destination" value="Destination">
+                            <select class="form-control" id="source" value="Destination">
                                 <option>Delhi</option>  
                                 <option>Amritsar</option>
                                 <option>Chandigarh</option>
@@ -98,7 +106,7 @@
                             		<option>Female</option>
                             		<option>Other</option>
                             </select>
-                    <input type="submit" class="form-control" name="submit" id="submit" value="Click to see the trains" style="margin:20px 0 20px 0px;color:black;">
+                    <button type = "button" class="form-control" name="submit" id="find-trains" value="Click to see the trains" style="margin:20px 0 20px 0px;color:black;">Click to see the trains</button>
                     
                             <!-- <textarea id="content-text" style="overflow:scroll" required></textarea> -->
                         </div>
@@ -110,9 +118,9 @@
         <form>
         <table class="table table-striped" id="content" style="margin: 0 auto;width: 80%;font-family: sf_pro;" responsive>
                         <thead>
-                            <tr>
-                                
+                            <tr>                   
                                 <th>T.Number</th>
+                                <th>Train Name</th>
                                 <th>Arrival</th>
                                 <th>Departure</th>
                                 <th>2AC</th>
@@ -121,71 +129,40 @@
                                 <th>CC</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>
-                            </tr>
-                            <tr>
-                                
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                            </tr>
-                            <tr>
-                                
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                                <td><input type="radio" name="train-class" value="1"></td>
-                            </tr>
+                        <tbody id = "table-body">  
                         </tbody>
                     </table>
-
-                    <div  style="text-align: center;padding: 50px" >
-                    <input type="submit" name="submit" style="padding: 10px 50px 10px 50px; background-color: white; outline: none;border:1px black solid;">
+                    <div style="text-align: center;padding: 50px" >
+                    <button id = "submit" type="button" name="submit" style="padding: 10px 50px 10px 50px; background-color: white; outline: none;border:1px black solid;color: black">Submit</button>
                     </form>
                     </div>
-        <div class="nav-content">
-            <ul>
-                <a href="home.html">
-                    <li>Home</li>
-                </a>
-                <a href="dashboard.html">
-                    <li>My Profile</li>
-                </a>
-                <a href="listOftransaction.html">
-                    <li>My Transaction History</li>
-                </a>
-                <li id="logout">Logout</li>
-            </ul>
-            <img id="nav-symbol" class="symbol" src="resources/authored-white.png">
-        </div>
-        <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false'></script>
+       <div class = "nav-content">
+      <ul>
+        <a href = "http://localhost:8000/home.html"><li>Home</li></a>
+        <a href = "http://localhost:8000/book_train.html"><li>Book A Train</li></a>
+        <a href = "http://localhost:8000/listOftransactions.html"><li>My Transactions</li></a>
+        <a href = "#"><li id = "logout">Log Out</li></a>
+      </ul>
+      <img id = "nav-symbol" class = "symbol" src = "resources/authored-white.png">
+    </div>
         <script src="js/jquery.js"></script>
         <script src="js/jquery_validate.js"></script>
         <script src="js/nav.js"></script>
         <script>
+            var trains;
+            var train_id;
+            var train_class;
+
             $('#submit').click(() => {
-                if ($('#book-form').valid()) {
                     const data = {
                         name: $('#name').val(),
-                        author: $('#author').val(),
-                        content: $('#content-text').val(),
+                        age: $('#age').val(),
+                        gender: $('#gender').val(),
+                        journey_date:new Date($('#date').val()).toUTCString(),
+                        train: train_id,
+                        coach_type: train_class,
                     };
+                    console.log(data);
                     $.ajax({
                         type: 'POST',
                         data: JSON.stringify(data),
@@ -194,11 +171,11 @@
                             xhr.setRequestHeader("authorization", localStorage.getItem('token'));
                         },
                         contentType: 'application/json',
-                        url: 'http://localhost:4000/books/create',
+                        url: 'http://localhost:4000/bookings/create',
                         success: function(data) {
                             console.log('success');
-                            alert('Your book has been uploaded!');
-                            window.location = "http://localhost:8000/home.html";
+                            alert('Your booking has been done!');
+                            window.location = "http://localhost:8000/final_invoice.html?book_id="+data._id;
                         },
                         error: function(error) {
                             console.log('error');
@@ -209,8 +186,62 @@
                             }
                         }
                     });
-                }
             });
+            $('#find-trains').click(() => {
+                $.ajax({
+                    type: 'GET',
+                        crossDomain: true,
+                        beforeSend: (xhr) => {
+                            xhr.setRequestHeader("authorization", localStorage.getItem('token'));
+                        },
+                        contentType: 'application/json',
+                        url: `http://localhost:4000/trains?source=${$('#source').val()}&destination=${$('#destination').val()}`,
+                        success: function(data) {
+                            trains = data;
+                            console.log('success');
+                            console.log(data);
+                            for(var i=0;i<data.count;i++) {
+                                var types = '';
+                                if (data.resArr[i].coach_types.indexOf('2AC') > -1) {
+                                    types += `<td><input type="radio" name="train-class" value="2AC" onclick = "radio('${data.resArr[i]._id}', '2AC')"></td>`;
+                                } else {
+                                    types += ' <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>';
+                                }
+                                 if (data.resArr[i].coach_types.indexOf('3AC') > -1) {
+                                    types += ` <td><input type="radio" name="train-class" value="3AC" onclick = "radio('${data.resArr[i]._id}', '3AC')"></td>`;
+                                } else {
+                                    types += ' <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>';
+                                }
+                                 if (data.resArr[i].coach_types.indexOf('2S') > -1) {
+                                   types += `<td><input type="radio" name="train-class" value="2S" onclick = "radio('${data.resArr[i]._id}', '2S')"></td>`;
+                                } else {
+                                    types += ' <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>';
+                                }
+                                 if (data.resArr[i].coach_types.indexOf('CC') > -1) {
+                                    types += `<td><input type="radio" name="train-class" value="CC" onclick = "radio('${data.resArr[i]._id}', 'CC')"></td>`;
+                                } else {
+                                    types += ' <td><i class="fa fa-close fa-lg" aria-hidden="true"></i></td>';
+                                }
+                                const html = `<tr id = "${data.resArr[i]._id}">                       
+                                <td>${data.resArr[i].number}</td>
+                                <td>${data.resArr[i].name}</td>
+                                <td>${data.resArr[i].time.arrival}</td>
+                                <td>${data.resArr[i].time.departure}</td>
+                                ${types}
+                            </tr>`;
+                            $('#table-body').append(html);
+                            }
+                        },
+                        error: function(error) {
+                            console.log('error');
+                        }
+                    });
+            });
+
+            function radio(id, type) {
+                train_id = id;
+                train_class = type;
+            }
         </script>
     
 </body>
